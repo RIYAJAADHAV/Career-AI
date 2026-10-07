@@ -7,6 +7,7 @@ import {
 } from 'lucide-react'
 import './App.css'
 
+// defines the six core reumse-analysis features displayed on the landing page 
 const features = [
   { icon: Target, title: 'ATS score', text: 'See how well your resume performs against the systems recruiters actually use.', tone: 'lilac' },
   { icon: ScanText, title: 'Keyword analysis', text: 'Find the important keywords you’re missing for the roles you want.', tone: 'blue' },
@@ -16,6 +17,7 @@ const features = [
   { icon: WandSparkles, title: 'AI suggestions', text: 'Get practical, personalized suggestions you can use right away.', tone: 'pink' },
 ]
 
+//Stores FAQ questions and answers used by the expandable FAQ section.
 const questions = [
   ['What is ResumeAI?', 'ResumeAI is a career companion that helps you understand how your resume reads to recruiters and applicant tracking systems, then gives you clear ways to improve it.'],
   ['Is my resume data private?', 'This is a frontend-only demo. The analyzer screens display sample data; your resume is not uploaded to a server or sent to an AI service.'],
@@ -24,6 +26,7 @@ const questions = [
   ['Do I need a credit card to get started?', 'No. You can explore the sample experience and browse the features without entering payment information.'],
 ]
 
+// Reusable ResumeAI logo component used in both the navbar and footer.
 function Logo({ light = false }) {
   return <a className={`brand${light ? ' brand-light' : ''}`} href="#home" aria-label="ResumeAI home">
     <span className="brand-mark"><FileText size={18} strokeWidth={2.4} /><Sparkles className="brand-spark" size={10} /></span>
@@ -31,6 +34,7 @@ function Logo({ light = false }) {
   </a>
 }
 
+// Reusable button component keeps CTA styling and navigation consistent across sections.
 function Button({ children, href = '#upload', secondary = false, className = '' }) {
   return <a className={`button${secondary ? ' button-secondary' : ''} ${className}`} href={href}>
     {children}<ArrowRight size={16} />
@@ -45,6 +49,7 @@ function SectionHeading({ eyebrow, title, description, centered = true }) {
   </div>
 }
 
+// Displays the circular resume score used in the sample analysis dashboard.
 function ScoreRing({ size = 'large' }) {
   return <div className={`score-ring score-ring-${size}`}><div className="score-ring-inner">
     <span className="score-number">87</span><span className="score-total">out of 100</span>
@@ -73,7 +78,8 @@ function DashboardPreview() {
 function Navbar() {
   const [open, setOpen] = useState(false)
   const links = [['Home', '#home'], ['Features', '#features'], ['How It Works', '#how-it-works'], ['Job Match', '#job-match'], ['Pricing', '#pricing']]
-  return <header className="navbar"><div className="nav-inner"><Logo />
+// Controls the mobile navigation menu so it opens and closes from the menu button. 
+ return <header className="navbar"><div className="nav-inner"><Logo />
     <nav className={`nav-links${open ? ' nav-links-open' : ''}`} aria-label="Main navigation">{links.map(([text, href]) =>
       <a key={text} href={href} onClick={() => setOpen(false)}>{text}</a>)}
     </nav>
@@ -127,15 +133,19 @@ function HowItWorks() {
     { number: '02', icon: Sparkles, title: 'Get your AI analysis', text: 'See your score, ATS compatibility, and personalized insights in seconds.' },
     { number: '03', icon: WandSparkles, title: 'Make it your best', text: 'Use practical suggestions to sharpen your story and apply with confidence.' },
   ]
+
+  // Provides a demo upload control that accepts common resume document formats.
   return <section className="how-section" id="how-it-works"><div className="section-wrap"><SectionHeading eyebrow="THREE SIMPLE STEPS" title="A better resume is closer than you think." description="No guesswork. No complicated process. Just a clearer path forward." />
     <div className="steps-grid">{steps.map(({ number, icon: Icon, title, text, id }) => <article className="step-card" key={number} id={id}><span className="step-number">STEP {number}</span><span className="step-icon"><Icon size={22} /></span><h3>{title}</h3><p>{text}</p>{id && <label className="upload-button" htmlFor="resume-upload">Choose a resume <ArrowRight size={14} /><input id="resume-upload" type="file" accept=".pdf,.doc,.docx" /></label>}</article>)}</div>
     <p className="privacy-note"><ShieldCheck size={15} /> Your resume stays yours. The demo shows sample results only.</p>
   </div></section>
 }
 
+
 function JobMatch() {
   const matched = ['Product strategy', 'User research', 'SQL', 'Cross-functional leadership', 'A/B testing']
   const missing = ['Amplitude', 'Growth experiments']
+  // Separates matching skills from missing skills to make job-fit information easier to scan.
   return <section className="match-section section-wrap" id="job-match"><div className="match-copy"><span className="eyebrow"><Target size={13} /> THE RIGHT FIT, MADE CLEAR</span><h2>Your resume, meet your <span>next role.</span></h2><p>Paste in a job description and see how your experience lines up. Know what to highlight before you hit apply.</p><ul className="match-benefits"><li><CheckCircle2 size={17} /> Spot your strongest overlaps</li><li><CheckCircle2 size={17} /> Find the skills to emphasize</li><li><CheckCircle2 size={17} /> Get actionable next steps</li></ul><Button href="#pricing">Find your job match</Button></div>
     <div className="match-card"><div className="match-card-head"><div><span className="match-kicker">SAMPLE JOB MATCH</span><h3>Senior Product Designer</h3><p>Acme Studio <span>·</span> San Francisco, CA</p></div><span className="match-badge"><Sparkles size={13} /> Great fit</span></div>
       <div className="match-score-row"><div className="match-score"><strong>91</strong><span>%</span></div><div className="match-score-info"><strong>You’re a strong match</strong><span>Your experience aligns with 10 of 12 key qualifications.</span></div></div>
@@ -155,6 +165,7 @@ function BeforeAfter() {
 
 function ScoreBreakdown() {
   const scores = [['ATS compatibility', '94%', 94, 'violet'], ['Keyword relevance', '82%', 82, 'blue'], ['Skills match', '88%', 88, 'green'], ['Experience & impact', '79%', 79, 'orange'], ['Formatting & clarity', '91%', 91, 'pink']]
+  // Uses reusable score data to generate consistent progress bars for each resume category.
   return <section className="breakdown-section"><div className="section-wrap breakdown-layout"><div className="breakdown-copy"><span className="eyebrow"><BarChart3 size={14} /> CLARITY, NOT JUST A NUMBER</span><h2>Know what’s working.<br /><span>Know what to do next.</span></h2><p>Your score isn’t a mystery metric. See exactly what’s strong and where a few thoughtful changes could make a difference.</p><a href="#features" className="text-link">Explore your score breakdown <ArrowRight size={15} /></a></div>
     <div className="breakdown-card"><div className="breakdown-card-head"><div><span>RESUME SCORECARD</span><h3>Your strengths at a glance</h3></div><span className="breakdown-icon"><BarChart3 size={18} /></span></div>
       <div className="breakdown-overall"><div><span>OVERALL SCORE</span><strong>87<span>/100</span></strong></div><span className="overall-good"><ArrowUpRight size={13} /> Looking good</span></div>
@@ -185,6 +196,7 @@ function Pricing() {
 
 function FAQ() {
   const [active, setActive] = useState(0)
+  // Tracks which FAQ answer is open so users can expand or collapse questions interactively.
   return <section className="faq-section section-wrap" id="faq"><div className="faq-intro"><span className="eyebrow"><CircleHelp size={14} /> GOOD QUESTIONS</span><h2>A few things<br />you might be<br /><span>wondering.</span></h2><p>Still curious? We’re happy to help make things clearer.</p><a href="mailto:hello@resumeai.example" className="text-link">Talk to a real person <ArrowRight size={15} /></a></div>
     <div className="faq-list">{questions.map(([question, answer], index) => <article className={`faq-item${active === index ? ' faq-item-active' : ''}`} key={question}><button className="faq-question" aria-expanded={active === index} onClick={() => setActive(active === index ? -1 : index)}><span>{question}</span><ChevronDown size={18} /></button>{active === index && <p className="faq-answer">{answer}</p>}</article>)}</div>
   </section>
@@ -201,8 +213,10 @@ function Footer() {
 }
 
 function App() {
+  // Observes page sections and reveals them when they enter the user's viewport.
   useEffect(() => {
     const elements = document.querySelectorAll('.section-heading, .problem-card, .feature-card, .step-card, .compare-card, .testimonial-card, .faq-item, .match-card, .breakdown-card, .price-card')
+   // IntersectionObserver provides efficient scroll-triggered animations without manual scroll listeners.
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
